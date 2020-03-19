@@ -1,5 +1,6 @@
 const express = require('express');
 const locationsRouter = new express.Router();
+const locationsService = require('../locations/service');
 
 locationsRouter.get('/average_location', getAverageLocation);
 
@@ -12,6 +13,11 @@ module.exports = locationsRouter;
  * @param {JSON} res The response
  */
 function getAverageLocation(req, res) {
-  // TODO
-  res.send('Hello, world!');
+  locationsService.getAverage(req.body.locations, (err, averageLocation) => {
+    if (err) {
+      res.status(400).send('Bad request!');
+    } else {
+      res.send(averageLocation);
+    }
+  });
 }

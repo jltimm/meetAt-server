@@ -1,3 +1,5 @@
+const validationService = require('../validation/service');
+
 module.exports = {getAverage};
 
 /**
@@ -8,6 +10,11 @@ module.exports = {getAverage};
  */
 function getAverage(locations, callback) {
   // TODO: Actually implement
+  const err = validationService.validateLocations(locations);
+  if (!!err) {
+    callback(err, null);
+    return;
+  }
   console.log(locations);
   callback(null, locations[0]);
 }

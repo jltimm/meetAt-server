@@ -13,9 +13,9 @@ module.exports = locationsRouter;
  * @param {JSON} res The response
  */
 function getAverageLocation(req, res) {
-  locationsService.getAverage(req.body.locations, (err, averageLocation) => {
+  locationsService.getAverage(req.body, (err, averageLocation) => {
     if (err) {
-      res.status(400).send('Bad request!');
+      res.status(err.code).send(err.body);
     } else {
       res.send(averageLocation);
     }

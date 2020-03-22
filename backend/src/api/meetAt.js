@@ -5,4 +5,10 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use('/v1/locations', require('./components/locations/controller'));
 
-app.listen(process.env.PORT || 8081);
+if (process.argv.includes('--start')) {
+  const port = process.env.PORT || 8081;
+  console.log('Starting server on port ' + port);
+  app.listen(port);
+}
+
+module.exports = app;

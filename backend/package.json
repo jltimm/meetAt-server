@@ -4,7 +4,8 @@
   "description": "",
   "main": "meetAt.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --detectOpenHandles",
+    "start": "node ./src/api/meetAt.js --start"
   },
   "author": "Jacob Timm",
   "license": "ISC",
@@ -15,6 +16,8 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-plugin-import": "^2.20.1"
+    "eslint-plugin-import": "^2.20.1",
+    "jest": "^25.1.0",
+    "supertest": "^4.0.2"
   }
 }

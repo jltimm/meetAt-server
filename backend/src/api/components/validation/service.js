@@ -44,5 +44,9 @@ function parseLocation(location, index) {
   if (!location.lng) {
     return 'The lng at index ' + index + ' is not present.';
   }
+  if (location.lat > 90 || location.lat < -90 ||
+      location.lng > 180 || location.lng < -180) {
+    return 'The coordinates at index ' + index + ' are not valid.';
+  }
   return null;
 }

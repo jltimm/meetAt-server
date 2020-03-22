@@ -53,7 +53,19 @@ function getCenter(locations) {
   const lat = Math.atan2(avgZ, hyp);
 
   return {
-    lat: rad2degr(lat),
-    lng: rad2degr(lng),
+    lat: round(rad2degr(lat), 4),
+    lng: round(rad2degr(lng), 4),
   };
+}
+
+/**
+ * Rounds the given value to the given decimal place
+ *
+ * @param {number} value The number to round
+ * @param {number} precision The decimal place to round to
+ * @return {number} The rounded number
+ */
+function round(value, precision) {
+  const multiplier = Math.pow(10, precision || 0);
+  return Math.round(value * multiplier) / multiplier;
 }

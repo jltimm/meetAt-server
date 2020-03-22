@@ -1,20 +1,19 @@
 const validationService = require('../validation/service');
+const calculateService = require('../calculate/service');
 
-module.exports = {getAverage};
+module.exports = {getCenter};
 
 /**
- * Averages the coordinates
+ * Gets the center of a group of coordinates]
  *
  * @param {array} locations Grabs the averaged coordinate
  * @param {function} callback The callback
  */
-function getAverage(locations, callback) {
-  // TODO: Actually implement
+function getCenter(locations, callback) {
   const err = validationService.validateLocations(locations);
   if (!!err) {
     callback(err, null);
     return;
   }
-  console.log(locations);
-  callback(null, locations[0]);
+  callback(null, calculateService.getCenter(locations));
 }

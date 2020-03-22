@@ -2,7 +2,7 @@ const express = require('express');
 const locationsRouter = new express.Router();
 const locationsService = require('../locations/service');
 
-locationsRouter.get('/average_location', getAverageLocation);
+locationsRouter.get('/center', getCenter);
 
 module.exports = locationsRouter;
 
@@ -12,8 +12,8 @@ module.exports = locationsRouter;
  * @param {JSON} req The request
  * @param {JSON} res The response
  */
-function getAverageLocation(req, res) {
-  locationsService.getAverage(req.body, (err, averageLocation) => {
+function getCenter(req, res) {
+  locationsService.getCenter(req.body.locations, (err, averageLocation) => {
     if (err) {
       res.status(err.code).send(err.body);
     } else {

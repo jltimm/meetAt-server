@@ -27,6 +27,9 @@ function degr2rad(degr) {
  * @return {JSON} The center of the coordinates
  */
 function getCenter(locations) {
+  if (locations.length == 1) {
+    return locations[0];
+  }
   let sumX = 0;
   let sumY = 0;
   let sumZ = 0;

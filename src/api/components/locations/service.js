@@ -4,7 +4,7 @@ const calculateService = require('../calculate/service');
 module.exports = {getCenter};
 
 /**
- * Gets the center of a group of coordinates]
+ * Gets the center of a group of coordinates
  *
  * @param {array} locations Grabs the averaged coordinate
  * @param {function} callback The callback

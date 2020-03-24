@@ -1,4 +1,5 @@
 const https = require('https');
+const validationService = require('../validation/service');
 
 module.exports = {getNearByLocationsFromCoordinates};
 
@@ -30,9 +31,23 @@ function getNearByLocations(lat, lng, callback) {
  * @param {function} callback The callback
  */
 function getNearByLocationsFromCoordinates(coordinates, callback) {
+  const err = validationService.validateLocations([coordinates]);
+  if (!!err) {
+    callback(err, null);
+    return;
+  }
   getNearByLocations(
       coordinates.lat, coordinates.lng, (nearByLocations, err) => {
-        if (err) callback(err, null);
+        if (!!err) {
+          const ret = {
+            code: 500,
+            body: {
+              err: 'Issue with call to external service',
+              msg: err,
+            },
+          };
+          callback(ret, null);
+        }
         callback(null, nearByLocations);
       });
 }

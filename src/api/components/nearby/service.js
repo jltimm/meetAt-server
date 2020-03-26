@@ -8,18 +8,20 @@ module.exports = {getNearByLocationsFromCoordinates};
  *
  * @param {number} lat The latitude
  * @param {number} lng The longitude
- * @param {function} callback The callback function
+ * @return {Promise} Either the nearby locations or the error
  */
-function getNearByLocations(lat, lng, callback) {
-  const requestUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=${process.env.PLACES_KEY}`;
-  https.get(requestUrl, (resp) => {
-    let data = '';
-    resp.on('data', (chunk) => {
-      data += chunk;
-    });
-    resp.on('end', () => {
-      const nearByLocations = JSON.parse(data).results;
-      callback(nearByLocations, null);
+function getNearByLocations(lat, lng) {
+  return new Promise((resolve, reject) => {
+    const requestUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=${process.env.PLACES_KEY}`;
+    https.get(requestUrl, (resp) => {
+      let data = '';
+      resp.on('data', (chunk) => {
+        data += chunk;
+      });
+      resp.on('end', () => {
+        const nearByLocations = JSON.parse(data).results;
+        resolve(nearByLocations, null);
+      });
     });
   });
 }
@@ -28,17 +30,19 @@ function getNearByLocations(lat, lng, callback) {
  * Gets the nearby locations from a coordinate
  *
  * @param {JSON} coordinates The centered coordinates
- * @param {function} callback The callback
+ * @return {Promise} Either near by locations or an error
  */
-function getNearByLocationsFromCoordinates(coordinates, callback) {
-  const err = validationService.validateLocations([coordinates]);
-  if (!!err) {
-    callback(err, null);
-    return;
-  }
-  getNearByLocations(
-      coordinates.lat, coordinates.lng, (nearByLocations, err) => {
-        if (!!err) {
+function getNearByLocationsFromCoordinates(coordinates) {
+  return new Promise((resolve, reject) => {
+    const err = validationService.validateLocations([coordinates]);
+    if (!!err) {
+      reject(err);
+      return;
+    }
+    getNearByLocations(coordinates.lat, coordinates.lng)
+        .then((nearByLocations) => {
+          resolve(nearByLocations);
+        }).catch((err) => {
           const ret = {
             code: 500,
             body: {
@@ -46,8 +50,7 @@ function getNearByLocationsFromCoordinates(coordinates, callback) {
               msg: err,
             },
           };
-          callback(ret, null);
-        }
-        callback(null, nearByLocations);
-      });
+          reject(ret);
+        });
+  });
 }

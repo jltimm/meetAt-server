@@ -13,13 +13,10 @@ module.exports = nearByRouter;
  * @param {JSON} res The response
  */
 function getNearByLocationsFromCoordinates(req, res) {
-  nearByService
-      .getNearByLocationsFromCoordinates(
-          req.body, (err, averageLocation) => {
-            if (err) {
-              res.status(err.code).send(err.body);
-            } else {
-              res.send(averageLocation);
-            }
-          });
+  nearByService.getNearByLocationsFromCoordinates(req.body)
+      .then((averageLocation) => {
+        res.send(averageLocation);
+      }).catch((err) => {
+        res.status(err.code).send(err.body);
+      });
 }

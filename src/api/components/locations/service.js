@@ -7,13 +7,12 @@ module.exports = {getCenter};
  * Gets the center of a group of coordinates
  *
  * @param {array} locations Grabs the averaged coordinate
- * @param {function} callback The callback
+ * @return {Promise} Either the locations or the error
  */
-function getCenter(locations, callback) {
+function getCenter(locations) {
   const err = validationService.validateLocations(locations);
-  if (!!err) {
-    callback(err, null);
-    return;
-  }
-  callback(null, calculateService.getCenter(locations));
+  return new Promise((resolve, reject) => {
+    if (err) reject(err);
+    resolve(calculateService.getCenter(locations));
+  });
 }

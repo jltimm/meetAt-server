@@ -13,11 +13,10 @@ module.exports = locationsRouter;
  * @param {JSON} res The response
  */
 function getCenter(req, res) {
-  locationsService.getCenter(req.body.locations, (err, averageLocation) => {
-    if (err) {
-      res.status(err.code).send(err.body);
-    } else {
-      res.send(averageLocation);
-    }
-  });
+  locationsService.getCenter(req.body.locations)
+      .then((averageLocation) => {
+        res.send(averageLocation);
+      }).catch((err) => {
+        res.status(err.code).send(err.body);
+      });
 }

@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../../../api/meetAt');
+const app = require('../../api/meetAt');
 
 let server;
 
